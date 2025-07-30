@@ -9,9 +9,8 @@ Track user referrals through Telegram. Users get referral links, share them with
 ## Quick Start
 
 ### Step 1: Get Credentials
-Contact OpenServ team to get:
-- Your app's API key
-- Your Telegram bot token
+1. Contact OpenServ team to register your app and get your API key
+2. Get your Telegram bot token from @BotFather
 
 ### Step 2: Choose Integration Method
 
@@ -93,8 +92,24 @@ See `integration-example.js` for full working example.
 ## Testing
 
 1. Go to @openserv_referrals_bot
-2. Send `/listapps` and `/getcodefor 1`
-3. Use the referral link to test your bot
+2. Send `/listapps` to see your registered app
+3. Send `/getcodefor YOUR_APP_ID` to get your referral link
+4. Share the link with others (you cannot use your own referral code)
+5. Track referrals when others use your link
+
+## App Information
+
+Check your app details:
+```bash
+curl -H "x-openserv-referrals-api-key: YOUR_API_KEY" \
+     https://referrals.openserv.ai/api/apps/me
+```
+
+## Important Notes
+
+- You cannot use your own referral code
+- Referral tracking data will be shared in CSV format
+- This is the initial version - more features coming soon
 
 ## Support
 
