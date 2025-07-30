@@ -53,41 +53,35 @@ async function startBot() {
     process.exit(1)
   }
 
-  // Welcome message (when user starts without referral code)
-  bot.onText(/\/start$/, async (msg) => {
+  // Welcome command - handles both /start and /start <referral_code>
+  bot.onText(/\/start(.*)/, async (msg, match) => {
     const chatId = msg.chat.id
     const username = msg.from.username || msg.from.first_name
+    const referralCode = match[1]?.trim()
     
-    console.log(`👋 User ${username} (${msg.from.id}) started bot WITHOUT referral code`)
+    if (referralCode) {
+      console.log(`🎯 User ${username} (${msg.from.id}) started bot WITH referral code: ${referralCode}`)
+    } else {
+      console.log(`👋 User ${username} (${msg.from.id}) started bot WITHOUT referral code`)
+    }
     
-    await bot.sendMessage(chatId, 
-      `🎉 Welcome ${username}!\n\n` +
-      `This bot is powered by OpenServ Referrals.\n\n` +
-      `📋 Available commands:\n` +
-      `• /help - Show this help message\n` +
-      `• /buy <amount> - Simulate a purchase\n\n` +
-      `💡 Try sharing your referral link with friends!`
-    )
-  })
-
-  // Log referral start commands (this is handled by the SDK, but we can log it)
-  bot.onText(/\/start (.+)/, async (msg, match) => {
-    const chatId = msg.chat.id
-    const username = msg.from.username || msg.from.first_name
-    const referralCode = match[1]
+    // The SDK automatically handles referral acknowledgment in the background
+    // We just show a welcome message with menu
+    const welcomeMessage = referralCode 
+      ? `🎉 Welcome ${username}!\n\n` +
+        `You were referred by someone! 🎁\n\n` +
+        `📋 Available commands:\n` +
+        `• /help - Show this help message\n` +
+        `• /buy <amount> - Simulate a purchase\n\n` +
+        `💡 Thanks for using the referral link!`
+      : `🎉 Welcome ${username}!\n\n` +
+        `This bot is powered by OpenServ Referrals.\n\n` +
+        `📋 Available commands:\n` +
+        `• /help - Show this help message\n` +
+        `• /buy <amount> - Simulate a purchase\n\n` +
+        `💡 Try sharing your referral link with friends!`
     
-    console.log(`🎯 User ${username} (${msg.from.id}) started bot WITH referral code: ${referralCode}`)
-    
-    // The SDK will automatically handle the referral acknowledgment
-    // We just need to send a welcome message
-    await bot.sendMessage(chatId, 
-      `🎉 Welcome ${username}!\n\n` +
-      `You were referred by someone! 🎁\n\n` +
-      `📋 Available commands:\n` +
-      `• /help - Show this help message\n` +
-      `• /buy <amount> - Simulate a purchase\n\n` +
-      `💡 Thanks for using the referral link!`
-    )
+    await bot.sendMessage(chatId, welcomeMessage)
   })
 
   // Help command
@@ -99,9 +93,10 @@ async function startBot() {
       `📥 /start - Welcome message\n` +
       `🛒 /buy <amount> - Simulate purchase (e.g., /buy 10.50)\n` +
       `❓ /help - Show this help\n\n` +
-      `🎁 Referral Rewards:\n` +
-      `• $2 for each new user who starts the bot\n` +
-      `• $5 for each purchase made\n\n` +
+      `🎁 How Referrals Work:\n` +
+      `• When you use someone's referral link, they earn rewards\n` +
+      `• $2 when you start the bot via their link\n` +
+      `• $5 when you make purchases\n\n` +
       `📊 Check your stats at @openserv_referrals_bot\n` +
       `🔗 Share your referral link to earn rewards!`
     )
@@ -145,9 +140,9 @@ async function startBot() {
 
       if (result.success) {
         await bot.sendMessage(chatId,
-          `✅ Purchase of $${amount.toFixed(2)} acknowledged!\n\n` +
-          `💰 You earned $5 for this purchase\n` +
-          `📊 Check your rewards at @openserv_referrals_bot`
+          `✅ Purchase of $${amount.toFixed(2)} confirmed!\n\n` +
+          `🎁 Your referrer earned a reward for this purchase\n` +
+          `📊 Check your own stats at @openserv_referrals_bot`
         )
       } else {
         await bot.sendMessage(chatId,
