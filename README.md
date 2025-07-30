@@ -1,6 +1,7 @@
 # OpenServ Referrals SDK
 
 Simple referral tracking for Telegram bots.
+<img width="788" height="588" alt="image" src="https://github.com/user-attachments/assets/4748687b-5df7-44a6-a7c8-478ee1e132d6" />
 
 ## What It Does
 
