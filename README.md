@@ -9,7 +9,7 @@ Track user referrals through Telegram. Users get referral links, share them with
 ## Quick Start
 
 ### Step 1: Get Credentials
-1. **For new bots**: Create your bot with @BotFather and get the token
+1. **For new bots**: Create your bot with @BotFather and get the bot token
 2. **For existing bots**: Just share your bot's handle
 3. Contact OpenServ team with:
    - Your bot's handle (e.g., @myapp_bot)
