@@ -1,0 +1,31 @@
+{
+  "name": "openserv-referrals-sdk-example",
+  "version": "1.0.0",
+  "description": "OpenServ Referrals SDK integration example for Telegram bots",
+  "main": "integration-example.js",
+  "type": "module",
+  "scripts": {
+    "start": "node integration-example.js",
+    "dev": "nodemon integration-example.js"
+  },
+  "keywords": [
+    "telegram",
+    "bot",
+    "referrals",
+    "openserv",
+    "sdk"
+  ],
+  "author": "OpenServ Labs",
+  "license": "MIT",
+  "dependencies": {
+    "@openserv-labs/referrals-sdk": "^1.0.0",
+    "node-telegram-bot-api": "^0.66.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+} 
